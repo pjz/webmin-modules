@@ -1,0 +1,3 @@
+desc=Host AP
+os_support=*-linux
+category=servers

@@ -1,0 +1,8 @@
+index_title=Host AP
+ssid=SSID
+wpa_passphrase=Password
+save_config=Save
+cancel_config_changes=Cancel
+save_error=Failed to save hostapd config
+ssid_bad_characters=The SSID you specified had invalid characters.
+password_bad_characters=The passphrase you specified had invalid characters.
