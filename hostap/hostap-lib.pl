@@ -40,20 +40,27 @@ Change the configuration options listed as keys in hash that changedvals referen
 sub set_hostapd_config
 {
 	my %changedvals = %{shift()};
+
+	webmin_log("startwriting", "configfile", "data", \%changedvals);
+
 	my $lref = &read_file_lines($config{'hostapd_config'});
 	my $lnum = 0;
 	foreach my $line (@$lref) {
 		if ($line =~ /^[^#]+=/) {
-			my ($n, $v) = split(/\s+/, $line, 2);
-			if (exists($changedvals{$n})) {
+			#webmin_log("found-configline", "configfile", $line); # noisy, but potentially useful
+			
+			my ($n, $v) = split(/=/, $line, 2);
+			if (exists($changedvals{$n}) && ($changedvals{$n} ne $v)) {
 				# we're at the config line, set it
-				${$lref}[$lnum] = $n."=".$changedvals{$n};
+				my $new_line = $n."=".$changedvals{$n};
+				${$lref}[$lnum] = $new_line;
+
+				webmin_log("wrote", "configfile", $new_line);
 			}
 		}
 		$lnum++;
 	}
 	flush_file_lines($config{'hostapd_config'})
-
 }
 
 
